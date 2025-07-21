@@ -8,6 +8,7 @@ import {
 import { FindSwiftCodeFormContent } from "@/components/find-swift-code-form";
 import { CheckSwiftCodeFormContent } from "@/components/check-swift-code-form";
 import { Info } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Home() {
   return (
@@ -21,14 +22,16 @@ export default function Home() {
                 <TabsTrigger value="check">Check SWIFT Code</TabsTrigger>
               </TabsList>
             </CardHeader>
-            <div className="flex-grow">
-              <TabsContent value="find">
-                <FindSwiftCodeFormContent />
-              </TabsContent>
-              <TabsContent value="check">
-                <CheckSwiftCodeFormContent />
-              </TabsContent>
-            </div>
+            <CardContent className="flex-1 flex flex-col min-h-0">
+              <ScrollArea className="flex-1">
+                  <TabsContent value="find" className="mt-0">
+                    <FindSwiftCodeFormContent />
+                  </TabsContent>
+                  <TabsContent value="check" className="mt-0">
+                    <CheckSwiftCodeFormContent />
+                  </TabsContent>
+              </ScrollArea>
+            </CardContent>
             <CardFooter>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <Info className="h-4 w-4" />
