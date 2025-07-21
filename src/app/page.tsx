@@ -21,7 +21,7 @@ export default function Home() {
                 <TabsTrigger value="check">Check SWIFT Code</TabsTrigger>
               </TabsList>
             </CardHeader>
-            <CardContent className="flex-1 overflow-y-auto">
+            <CardContent className="flex-1">
               <TabsContent value="find" className="mt-0">
                 <FindSwiftCodeFormContent />
               </TabsContent>
