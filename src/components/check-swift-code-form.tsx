@@ -168,7 +168,7 @@ export function CheckSwiftCodeFormContent() {
         </div>
         <CardFooter className="px-0 pt-6 pb-0">
           <div className="flex flex-col w-full gap-4">
-             <Button variant="outline" onClick={handleSearchAgain} className="w-full">
+             <Button variant="outline" onClick={handleSearchAgain} className="w-full text-[#5E5E5E]">
                Search Again
             </Button>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
