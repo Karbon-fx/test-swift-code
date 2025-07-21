@@ -163,7 +163,7 @@ export function CheckSwiftCodeFormContent() {
           </div>
            <div>
             <p className="text-sm text-muted-foreground">Country</p>
-            <p className="font-semibold mt-1 text-[#212121]">{branch.country}</p>
+            <p className="font-semibold mt-1 text-[#212121]">{branch.country.toUpperCase()}</p>
           </div>
         </div>
         <CardFooter className="px-0 pt-6 pb-0">
