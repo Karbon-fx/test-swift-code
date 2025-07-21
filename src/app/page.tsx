@@ -3,11 +3,13 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { FindSwiftCodeFormContent } from "@/components/find-swift-code-form";
 import { CheckSwiftCodeFormContent } from "@/components/check-swift-code-form";
+import { Info } from "lucide-react";
 
 export default function Home() {
   return (
@@ -29,6 +31,15 @@ export default function Home() {
                 <CheckSwiftCodeFormContent />
               </TabsContent>
             </div>
+            <CardFooter>
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <Info className="h-4 w-4" />
+                <p>
+                  We respect your privacy. Your bank details are neither stored
+                  nor viewed by us.
+                </p>
+              </div>
+            </CardFooter>
           </Card>
         </Tabs>
       </div>
