@@ -29,7 +29,7 @@ export default function Home() {
                 <CheckSwiftCodeFormContent />
               </TabsContent>
             </CardContent>
-            <CardFooter className="pb-4">
+            <CardFooter className="pb-6">
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <Info className="h-4 w-4" />
                 <p>
