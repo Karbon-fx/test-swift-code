@@ -27,10 +27,7 @@ import {
   CheckCircle,
   XCircle,
   Copy,
-  Landmark,
-  Building,
-  MapPin,
-  Globe,
+  Info,
 } from "lucide-react";
 import { swiftLookup, type SwiftLookupOutput } from "@/ai/flows/swift-lookup-flow";
 import { useToast } from "@/hooks/use-toast";
@@ -100,6 +97,11 @@ export function CheckSwiftCodeFormContent() {
     });
   };
 
+  const handleSearchAgain = () => {
+    setResult(null);
+    form.reset();
+  };
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     setResult(null);
@@ -133,6 +135,52 @@ export function CheckSwiftCodeFormContent() {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  if (result?.isValid && result.branch) {
+    const branch = result.branch;
+    return (
+      <div className="p-6 pt-0">
+        <div className="space-y-6">
+          <div>
+            <p className="text-sm text-muted-foreground">SWIFT Code</p>
+            <div className="flex items-center justify-between bg-muted p-3 rounded-md mt-1">
+              <p className="text-2xl font-bold text-primary">{branch.swift_code}</p>
+              <Button variant="outline" size="sm" onClick={() => handleCopy(branch.swift_code)}>
+                <Copy className="mr-2" />
+                Copy Code
+              </Button>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm text-muted-foreground">Bank Branch Name</p>
+            <p className="font-semibold mt-1">{branch.bank} - {branch.branch || "Main Branch"}</p>
+          </div>
+          <div>
+            <p className="text-sm text-muted-foreground">Address</p>
+            <p className="font-semibold mt-1">Not Available</p>
+          </div>
+          <div>
+            <p className="text-sm text-muted-foreground">City</p>
+            <p className="font-semibold mt-1">{branch.city}, {branch.country}</p>
+          </div>
+        </div>
+        <CardFooter className="px-0 pt-6 pb-0">
+          <div className="flex flex-col w-full gap-4">
+             <Button variant="outline" onClick={handleSearchAgain} className="w-full">
+               Search Again
+            </Button>
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Info className="h-4 w-4" />
+              <p>
+                We respect your privacy. Your bank details are neither stored
+                nor viewed by us.
+              </p>
+            </div>
+          </div>
+        </CardFooter>
+      </div>
+    );
   }
 
   return (
@@ -171,66 +219,25 @@ export function CheckSwiftCodeFormContent() {
       </Form>
 
       <CardContent>
-        {result ? (
-          <div className="flex-col items-start gap-4">
-            <div
-              className={`w-full flex items-center gap-3 p-4 rounded-md ${
-                result.isValid
-                  ? "bg-green-100 text-green-800"
-                  : "bg-red-100 text-red-800"
-              }`}
-            >
-              {result.isValid ? (
-                <CheckCircle className="h-5 w-5" />
-              ) : (
-                <XCircle className="h-5 w-5" />
-              )}
-              <p className="text-sm font-medium">{result.message}</p>
-            </div>
-
-            {result.isValid && result.branch && (
-              <Card className="w-full shadow-md mt-4">
-                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Building className="w-5 h-5 text-primary" />
-                    <span>{result.branch.branch || "Main Branch"}</span>
-                  </CardTitle>
-                  <CardDescription>{result.branch.bank}</CardDescription>
-                </CardHeader>
-                <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                  <div className="flex items-center justify-between font-mono text-base bg-muted p-3 rounded-md">
-                    <span className="font-semibold text-primary">{result.branch.swift_code}</span>
-                     <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8"
-                      onClick={() => handleCopy(result.branch!.swift_code)}
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Landmark className="w-4 h-4 text-muted-foreground" />
-                      <span>{result.branch.bank}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-muted-foreground" />
-                      <span>{result.branch.city}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Globe className="w-4 h-4 text-muted-foreground" />
-                      <span>{result.branch.country}</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+        {result && !result.isValid && (
+          <div
+            className={`w-full flex items-center gap-3 p-4 rounded-md bg-red-100 text-red-800`}
+          >
+            <XCircle className="h-5 w-5" />
+            <p className="text-sm font-medium">{result.message}</p>
           </div>
-        ) : (
-          <SwiftCodeFormatCard />
         )}
+        {!result && <SwiftCodeFormatCard />}
       </CardContent>
+      <CardFooter className="pb-6">
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <Info className="h-4 w-4" />
+            <p>
+              We respect your privacy. Your bank details are neither stored
+              nor viewed by us.
+            </p>
+          </div>
+        </CardFooter>
     </>
   );
 }
