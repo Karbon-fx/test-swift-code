@@ -155,15 +155,15 @@ export function CheckSwiftCodeFormContent() {
           </div>
           <div>
             <p className="text-sm text-muted-foreground">Bank Branch Name</p>
-            <p className="font-semibold mt-1">{branch.bank} - {branch.branch || "Main Branch"}</p>
+            <p className="font-semibold mt-1 text-[#212121]">{branch.bank} - {branch.branch || "Main Branch"}</p>
           </div>
           <div>
             <p className="text-sm text-muted-foreground">City</p>
-            <p className="font-semibold mt-1">{branch.city}</p>
+            <p className="font-semibold mt-1 text-[#212121]">{branch.city}</p>
           </div>
            <div>
             <p className="text-sm text-muted-foreground">Country</p>
-            <p className="font-semibold mt-1">{branch.country}</p>
+            <p className="font-semibold mt-1 text-[#212121]">{branch.country}</p>
           </div>
         </div>
         <CardFooter className="px-0 pt-6 pb-0">
