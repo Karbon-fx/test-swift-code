@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
@@ -28,7 +29,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+import { Info, Loader2 } from "lucide-react";
 import { getCountries, getBanksForCountry, getBranchesForCity, Bank, Branch } from "@/lib/data";
 import { BranchList } from "./branch-list";
 
@@ -180,13 +181,20 @@ export function FindSwiftCodeFormContent() {
               )}
             />
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex-col items-start gap-4">
             <Button type="submit" disabled={isLoading} className="w-full">
               {isLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : null}
               Find SWIFT code
             </Button>
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Info className="h-4 w-4" />
+              <p>
+                We respect your privacy. Your bank details are neither stored
+                nor viewed by us.
+              </p>
+            </div>
           </CardFooter>
         </form>
       </Form>
