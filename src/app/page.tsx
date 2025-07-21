@@ -17,7 +17,7 @@ export default function Home() {
           <Card className="w-full h-full shadow-sm flex flex-col bg-background">
             <CardHeader>
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="find">Find SWIFT Code</TabsTrigger>
+                <TabsTrigger value="find">Find SWIFT code</TabsTrigger>
                 <TabsTrigger value="check">Check SWIFT Code</TabsTrigger>
               </TabsList>
             </CardHeader>
