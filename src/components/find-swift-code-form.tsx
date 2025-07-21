@@ -199,9 +199,9 @@ export function FindSwiftCodeFormContent() {
         </form>
       </Form>
       
-      <CardContent>
+      <div className="px-6 pb-6">
         {branches && <BranchList branches={branches} />}
-      </CardContent>
+      </div>
     </div>
   );
 }
