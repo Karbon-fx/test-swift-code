@@ -164,7 +164,7 @@ export function CheckSwiftCodeFormContent() {
               {isLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : null}
-              Check Code
+              Check SWIFT code
             </Button>
           </CardFooter>
         </form>
