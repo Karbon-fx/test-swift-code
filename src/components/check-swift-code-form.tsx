@@ -146,7 +146,7 @@ export function CheckSwiftCodeFormContent() {
           <div>
             <p className="text-sm text-muted-foreground">SWIFT Code</p>
             <div className="flex items-center justify-between bg-muted p-3 rounded-md mt-1">
-              <p className="text-2xl font-bold text-primary">{branch.swift_code}</p>
+              <p className="text-2xl font-bold text-primary">{branch.swift_code.toUpperCase()}</p>
               <Button variant="outline" size="sm" onClick={() => handleCopy(branch.swift_code)} className="text-[#727272]">
                 <Copy className="mr-2" />
                 Copy Code
@@ -155,11 +155,11 @@ export function CheckSwiftCodeFormContent() {
           </div>
           <div>
             <p className="text-sm text-muted-foreground">Bank Branch Name</p>
-            <p className="font-semibold mt-1 text-[#212121]">{branch.bank} - {branch.branch || "Main Branch"}</p>
+            <p className="font-semibold mt-1 text-[#212121]">{`${branch.bank.toUpperCase()} - ${(branch.branch || "Main Branch").toUpperCase()}`}</p>
           </div>
           <div>
             <p className="text-sm text-muted-foreground">City</p>
-            <p className="font-semibold mt-1 text-[#212121]">{branch.city}</p>
+            <p className="font-semibold mt-1 text-[#212121]">{branch.city.toUpperCase()}</p>
           </div>
            <div>
             <p className="text-sm text-muted-foreground">Country</p>
