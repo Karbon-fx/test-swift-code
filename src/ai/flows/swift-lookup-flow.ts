@@ -1,13 +1,12 @@
 'use server';
 /**
- * @fileOverview A flow for looking up SWIFT code information using the APIVerse API.
+ * @fileOverview A utility for looking up SWIFT code information using the APIVerse API.
  * 
  * - swiftLookup - A function that handles the SWIFT code lookup process.
  * - SwiftLookupInput - The input type for the swiftLookup function.
  * - SwiftLookupOutput - The return type for the swiftLookup function.
  */
 
-import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 
 // Define the schema for the bank details from the API response
@@ -33,28 +32,11 @@ const ApiVerseResponseSchema = z.object({
   data: ApiVerseDataSchema.nullable(),
 });
 
-// Define the input schema for our flow
-const SwiftLookupInputSchema = z.string().describe("The SWIFT code to look up.");
-export type SwiftLookupInput = z.infer<typeof SwiftLookupInputSchema>;
-
-// Define the output schema for our flow, which can be a bank or null
-const SwiftLookupOutputSchema = BankSchema.nullable();
-export type SwiftLookupOutput = z.infer<typeof SwiftLookupOutputSchema>;
-
+export type SwiftLookupInput = string;
+export type SwiftLookupOutput = z.infer<typeof BankSchema> | null;
 
 // The main exported function that the UI will call
-export async function swiftLookup(input: SwiftLookupInput): Promise<SwiftLookupOutput> {
-  return swiftLookupFlow(input);
-}
-
-
-const swiftLookupFlow = ai.defineFlow(
-  {
-    name: 'swiftLookupFlow',
-    inputSchema: SwiftLookupInputSchema,
-    outputSchema: SwiftLookupOutputSchema,
-  },
-  async (swiftCode) => {
+export async function swiftLookup(swiftCode: SwiftLookupInput): Promise<SwiftLookupOutput> {
     // It's best practice to store API keys in environment variables
     const apiKey = process.env.APIVERSE_API_KEY;
     if (!apiKey) {
@@ -102,5 +84,4 @@ const swiftLookupFlow = ai.defineFlow(
       // In case of any other error (e.g., network issues), we return null
       return null;
     }
-  }
-);
+}
