@@ -25,6 +25,7 @@ const countries: Country[] = [
   { code: "US", name: "United States" },
   { code: "CA", name: "Canada" },
   { code: "DE", name: "Germany" },
+  { code: "IN", name: "India" },
 ];
 
 const banks: Bank[] = [
@@ -38,6 +39,8 @@ const banks: Bank[] = [
   // German Banks
   { id: "db", name: "Deutsche Bank", countryCode: "DE", cities: ["Frankfurt", "Berlin"] },
   { id: "cb", name: "Commerzbank", countryCode: "DE", cities: ["Frankfurt", "Hamburg"] },
+  // Indian Banks
+  { id: "sbin", name: "State Bank of India", countryCode: "IN", cities: ["Mumbai"] },
 ];
 
 const branches: Branch[] = [
@@ -62,6 +65,8 @@ const branches: Branch[] = [
     // Commerzbank branches
     { swiftCode: "COBADEFF", bankName: "Commerzbank", bankId: "cb", branch: "Kaiserplatz", city: "Frankfurt", countryCode: "DE", countryName: "Germany", address: "Kaiserplatz, Frankfurt am Main" },
     { swiftCode: "COBADEHH", bankName: "Commerzbank", bankId: "cb", branch: "Hamburg Branch", city: "Hamburg", countryCode: "DE", countryName: "Germany", address: "Ness 7-9, Hamburg" },
+    // State Bank of India branch
+    { swiftCode: "SBININBB101", bankName: "State Bank of India", bankId: "sbin", branch: "Mumbai Main Branch", city: "Mumbai", countryCode: "IN", countryName: "India", address: "Dalal Street, Mumbai, MH" },
 ];
 
 
