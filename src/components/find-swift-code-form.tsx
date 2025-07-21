@@ -102,12 +102,6 @@ export function FindSwiftCodeFormContent() {
 
   return (
     <div>
-       <CardHeader className="pt-0">
-        <CardTitle>Find SWIFT Code</CardTitle>
-        <CardDescription>
-          Select country, bank, and city to find the SWIFT/BIC code.
-        </CardDescription>
-      </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
@@ -201,14 +195,5 @@ export function FindSwiftCodeFormContent() {
         {branches && <BranchList branches={branches} />}
       </CardContent>
     </div>
-  );
-}
-
-
-export function FindSwiftCodeForm() {
-  return (
-    <Card className="w-full shadow-sm">
-      <FindSwiftCodeFormContent />
-    </Card>
   );
 }

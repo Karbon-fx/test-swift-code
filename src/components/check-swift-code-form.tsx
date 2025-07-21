@@ -109,12 +109,6 @@ export function CheckSwiftCodeFormContent() {
 
   return (
     <>
-      <CardHeader className="pt-0">
-        <CardTitle>Check SWIFT Code</CardTitle>
-        <CardDescription>
-          Enter a SWIFT/BIC code to check its validity and get details.
-        </CardDescription>
-      </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardContent>
@@ -205,14 +199,5 @@ export function CheckSwiftCodeFormContent() {
         </CardContent>
       )}
     </>
-  );
-}
-
-// Keep the original export for compatibility if it's used elsewhere.
-export function CheckSwiftCodeForm() {
-  return (
-    <Card className="w-full shadow-sm">
-      <CheckSwiftCodeFormContent />
-    </Card>
   );
 }
