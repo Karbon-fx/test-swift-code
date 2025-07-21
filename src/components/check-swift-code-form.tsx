@@ -32,25 +32,23 @@ import {
   MapPin,
   Globe,
 } from "lucide-react";
-import { getBranchBySwiftCode, Branch } from "@/lib/data";
+import { swiftLookup, type SwiftLookupOutput } from "@/ai/flows/swift-lookup-flow";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   swiftCode: z
     .string()
     .trim()
-    .refine((value) => value.length === 8 || value.length === 11, {
-      message: "SWIFT code must be 8 or 11 characters long.",
-    })
+    .min(1, "SWIFT code is required.")
     .refine((value) => /^[A-Z0-9]{8,11}$/.test(value), {
-      message: "SWIFT code must contain only uppercase letters and numbers.",
+      message: "SWIFT code must be 8 or 11 characters and contain only uppercase letters and numbers.",
     }),
 });
 
 type ValidationResult = {
   isValid: boolean;
   message: string;
-  branch?: Branch;
+  branch?: SwiftLookupOutput;
 };
 
 export function CheckSwiftCodeForm() {
@@ -73,18 +71,18 @@ export function CheckSwiftCodeForm() {
     });
   };
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     setResult(null);
 
-    setTimeout(() => {
-      const branch = getBranchBySwiftCode(values.swiftCode);
+    try {
+      const branchDetails = await swiftLookup(values.swiftCode);
 
-      if (branch) {
+      if (branchDetails) {
         setResult({
           isValid: true,
-          message: "This SWIFT code is valid and found in our database.",
-          branch: branch,
+          message: "This SWIFT code is valid and found.",
+          branch: branchDetails,
         });
       } else {
         setResult({
@@ -92,8 +90,20 @@ export function CheckSwiftCodeForm() {
           message: "SWIFT code has a valid format, but was not found.",
         });
       }
+    } catch (error) {
+       console.error("Failed to check SWIFT code:", error);
+       setResult({
+        isValid: false,
+        message: "An error occurred while checking the code. Please try again.",
+      });
+       toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Could not connect to the lookup service.",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   }
 
   return (
@@ -115,7 +125,7 @@ export function CheckSwiftCodeForm() {
                   <FormLabel>SWIFT Code</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="e.g., CITIUS33"
+                      placeholder="e.g., CHASUS33ARP"
                       {...field}
                       autoCapitalize="characters"
                       onChange={(e) => field.onChange(e.target.value.toUpperCase())}
@@ -158,18 +168,18 @@ export function CheckSwiftCodeForm() {
                <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Building className="w-5 h-5 text-primary" />
-                  <span>{result.branch.branch}</span>
+                  <span>{result.branch.branch || "Main Branch"}</span>
                 </CardTitle>
-                <CardDescription>{result.branch.address}</CardDescription>
+                <CardDescription>{result.branch.bank}</CardDescription>
               </CardHeader>
               <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                 <div className="flex items-center justify-between font-mono text-base bg-muted p-3 rounded-md">
-                  <span className="font-semibold text-primary">{result.branch.swiftCode}</span>
+                  <span className="font-semibold text-primary">{result.branch.swift_code}</span>
                    <Button
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => handleCopy(result.branch!.swiftCode)}
+                    onClick={() => handleCopy(result.branch!.swift_code)}
                   >
                     <Copy className="h-4 w-4" />
                   </Button>
@@ -177,7 +187,7 @@ export function CheckSwiftCodeForm() {
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <Landmark className="w-4 h-4 text-muted-foreground" />
-                    <span>{result.branch.bankName}</span>
+                    <span>{result.branch.bank}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MapPin className="w-4 h-4 text-muted-foreground" />
@@ -185,7 +195,7 @@ export function CheckSwiftCodeForm() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Globe className="w-4 h-4 text-muted-foreground" />
-                    <span>{result.branch.countryName}</span>
+                    <span>{result.branch.country}</span>
                   </div>
                 </div>
               </CardContent>
