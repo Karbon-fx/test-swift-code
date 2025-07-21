@@ -14,7 +14,7 @@ export default function Home() {
     <main className="flex min-h-screen w-full flex-col items-center justify-center p-4 sm:p-6 md:p-8 bg-background">
       <div style={{ width: '450px', height: '510px' }}>
         <Tabs defaultValue="find" className="w-full h-full">
-          <Card className="w-full h-full shadow-sm flex flex-col">
+          <Card className="w-full h-full shadow-sm flex flex-col bg-background">
             <CardHeader>
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="find">Find SWIFT Code</TabsTrigger>
