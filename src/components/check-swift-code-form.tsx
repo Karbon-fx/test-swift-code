@@ -40,7 +40,7 @@ const formSchema = z.object({
     .string()
     .trim()
     .min(1, "SWIFT code is required.")
-    .refine((value) => /^[A-Z0-9]{8,11}$/.test(value), {
+    .refine((value) => /^[A-Z0-9]{8,11}$/.test(value.toUpperCase()), {
       message: "SWIFT code must be 8 or 11 characters and contain only uppercase letters and numbers.",
     }),
 });
@@ -51,7 +51,8 @@ type ValidationResult = {
   branch?: SwiftLookupOutput;
 };
 
-export function CheckSwiftCodeForm() {
+
+export function CheckSwiftCodeFormContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<ValidationResult | null>(null);
   const { toast } = useToast();
@@ -76,7 +77,7 @@ export function CheckSwiftCodeForm() {
     setResult(null);
 
     try {
-      const branchDetails = await swiftLookup(values.swiftCode);
+      const branchDetails = await swiftLookup(values.swiftCode.toUpperCase());
 
       if (branchDetails) {
         setResult({
@@ -107,8 +108,8 @@ export function CheckSwiftCodeForm() {
   }
 
   return (
-    <Card className="w-full shadow-sm">
-      <CardHeader>
+    <>
+      <CardHeader className="pt-0">
         <CardTitle>Check SWIFT Code</CardTitle>
         <CardDescription>
           Enter a SWIFT/BIC code to check its validity and get details.
@@ -147,7 +148,7 @@ export function CheckSwiftCodeForm() {
         </form>
       </Form>
       {result && (
-        <CardFooter className="flex-col items-start gap-4">
+        <CardContent className="flex-col items-start gap-4">
           <div
             className={`w-full flex items-center gap-3 p-4 rounded-md ${
               result.isValid
@@ -164,7 +165,7 @@ export function CheckSwiftCodeForm() {
           </div>
 
           {result.isValid && result.branch && (
-            <Card className="w-full shadow-md">
+            <Card className="w-full shadow-md mt-4">
                <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Building className="w-5 h-5 text-primary" />
@@ -201,8 +202,17 @@ export function CheckSwiftCodeForm() {
               </CardContent>
             </Card>
           )}
-        </CardFooter>
+        </CardContent>
       )}
+    </>
+  );
+}
+
+// Keep the original export for compatibility if it's used elsewhere.
+export function CheckSwiftCodeForm() {
+  return (
+    <Card className="w-full shadow-sm">
+      <CheckSwiftCodeFormContent />
     </Card>
   );
 }

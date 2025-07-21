@@ -38,7 +38,7 @@ const formSchema = z.object({
   city: z.string().min(1, "Please select a city."),
 });
 
-export function FindSwiftCodeForm() {
+export function FindSwiftCodeFormContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [banks, setBanks] = useState<Bank[]>([]);
   const [cities, setCities] = useState<string[]>([]);
@@ -102,104 +102,113 @@ export function FindSwiftCodeForm() {
 
   return (
     <div>
-      <Card className="w-full shadow-sm">
-        <CardHeader>
-          <CardTitle>Find SWIFT Code</CardTitle>
-          <CardDescription>
-            Select country, bank, and city to find the SWIFT/BIC code.
-          </CardDescription>
-        </CardHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <CardContent className="space-y-4">
-              <FormField
-                control={form.control}
-                name="country"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Country</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a country" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {countries.map((country) => (
-                          <SelectItem key={country.code} value={country.code}>
-                            {country.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+       <CardHeader className="pt-0">
+        <CardTitle>Find SWIFT Code</CardTitle>
+        <CardDescription>
+          Select country, bank, and city to find the SWIFT/BIC code.
+        </CardDescription>
+      </CardHeader>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <CardContent className="space-y-4">
+            <FormField
+              control={form.control}
+              name="country"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Country</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a country" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {countries.map((country) => (
+                        <SelectItem key={country.code} value={country.code}>
+                          {country.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                control={form.control}
-                name="bank"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Bank</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value} disabled={!selectedCountry}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a bank" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {banks.map((bank) => (
-                          <SelectItem key={bank.id} value={bank.id}>
-                            {bank.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <FormField
+              control={form.control}
+              name="bank"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Bank</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value} disabled={!selectedCountry}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a bank" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {banks.map((bank) => (
+                        <SelectItem key={bank.id} value={bank.id}>
+                          {bank.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                control={form.control}
-                name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>City</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value} disabled={!selectedBank}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a city" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {cities.map((city) => (
-                          <SelectItem key={city} value={city}>
-                            {city}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-            <CardFooter>
-              <Button type="submit" disabled={isLoading} className="w-full">
-                {isLoading ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : null}
-                Find Code
-              </Button>
-            </CardFooter>
-          </form>
-        </Form>
-      </Card>
-
-      {branches && <BranchList branches={branches} />}
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>City</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value} disabled={!selectedBank}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a city" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {cities.map((city) => (
+                        <SelectItem key={city} value={city}>
+                          {city}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </CardContent>
+          <CardFooter>
+            <Button type="submit" disabled={isLoading} className="w-full">
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : null}
+              Find Code
+            </Button>
+          </CardFooter>
+        </form>
+      </Form>
+      
+      <CardContent>
+        {branches && <BranchList branches={branches} />}
+      </CardContent>
     </div>
+  );
+}
+
+
+export function FindSwiftCodeForm() {
+  return (
+    <Card className="w-full shadow-sm">
+      <FindSwiftCodeFormContent />
+    </Card>
   );
 }
