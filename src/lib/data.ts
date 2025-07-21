@@ -76,3 +76,9 @@ export const getBranchesForCity = (bankId: string, city: string): Branch[] => {
     (branch) => branch.bankId === bankId && branch.city === city
   );
 };
+
+export const getBranchBySwiftCode = (swiftCode: string): Branch | undefined => {
+  return branches.find(
+    (branch) => branch.swiftCode.toUpperCase() === swiftCode.toUpperCase()
+  );
+};
