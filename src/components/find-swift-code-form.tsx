@@ -181,7 +181,7 @@ export function FindSwiftCodeFormContent() {
               )}
             />
           </CardContent>
-          <CardFooter className="flex-col items-start gap-4">
+          <CardFooter className="flex-col items-start gap-4 pb-6">
             <Button type="submit" disabled={isLoading} className="w-full">
               {isLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
