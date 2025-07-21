@@ -188,7 +188,7 @@ export function FindSwiftCodeFormContent() {
               ) : null}
               Find SWIFT code
             </Button>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground pt-2">
               <Info className="h-4 w-4" />
               <p>
                 We respect your privacy. Your bank details are neither stored
