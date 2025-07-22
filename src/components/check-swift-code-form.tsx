@@ -141,7 +141,7 @@ export function CheckSwiftCodeFormContent() {
         <div className="space-y-6">
           <div>
             <p className="text-sm text-muted-foreground">SWIFT Code</p>
-            <div className="flex items-center justify-between bg-muted p-3 rounded-md mt-1">
+            <div className="flex items-center justify-between bg-[#F1F5F9] p-3 rounded-md mt-1">
               <p className="text-2xl font-bold text-primary">{branch.swift_code.toUpperCase()}</p>
               <Button variant="outline" size="sm" onClick={() => handleCopy(branch.swift_code)} className="text-[#727272]">
                 <Copy className="mr-2" />
