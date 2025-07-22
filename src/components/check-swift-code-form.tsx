@@ -18,14 +18,10 @@ import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import {
   Loader2,
-  CheckCircle,
   XCircle,
   Copy,
   Info,
@@ -51,7 +47,7 @@ type ValidationResult = {
 
 function SwiftCodeFormatCard() {
   return (
-    <Card className="bg-muted border-none shadow-none mt-4">
+    <Card className="bg-[#F1F5F9] border-none shadow-none mt-4">
       <CardContent className="p-4">
         <p className="text-sm font-semibold text-foreground mb-4">SWIFT code format</p>
         <div className="grid grid-cols-4 gap-4 text-center">
