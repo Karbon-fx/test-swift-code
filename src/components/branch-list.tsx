@@ -50,10 +50,6 @@ export function BranchList({ branches }: BranchListProps) {
           <p className="font-semibold mt-1 text-[#212121]">{`${selectedBranch.bankName.toUpperCase()} - ${(selectedBranch.branch || "Main Branch").toUpperCase()}`}</p>
         </div>
         <div>
-          <p className="text-sm text-muted-foreground">Address</p>
-          <p className="font-semibold mt-1 text-[#212121]">{selectedBranch.address.toUpperCase()}</p>
-        </div>
-        <div>
           <p className="text-sm text-muted-foreground">City</p>
           <p className="font-semibold mt-1 text-[#212121]">{selectedBranch.city.toUpperCase()}</p>
         </div>
