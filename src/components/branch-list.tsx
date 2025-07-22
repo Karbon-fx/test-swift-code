@@ -14,9 +14,10 @@ import { ChevronRight } from "lucide-react";
 
 interface BranchListProps {
   branches: Branch[];
+  onSearchAgain: () => void;
 }
 
-export function BranchList({ branches }: BranchListProps) {
+export function BranchList({ branches, onSearchAgain }: BranchListProps) {
   const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null);
   const { toast } = useToast();
 
@@ -26,10 +27,6 @@ export function BranchList({ branches }: BranchListProps) {
       title: "Copied to clipboard!",
       description: "The SWIFT code has been copied.",
     });
-  };
-  
-  const handleBack = () => {
-    setSelectedBranch(null);
   };
 
   if (selectedBranch) {
@@ -59,8 +56,8 @@ export function BranchList({ branches }: BranchListProps) {
         </div>
         <CardFooter className="px-0 pt-6 pb-6">
           <div className="flex flex-col w-full gap-4">
-             <Button variant="outline" onClick={handleBack} className="w-full text-[#5E5E5E] bg-white">
-               Back to Branches
+             <Button variant="outline" onClick={onSearchAgain} className="w-full text-[#5E5E5E] bg-white">
+               Search Again
             </Button>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <Info className="h-4 w-4" />

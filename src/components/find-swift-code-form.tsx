@@ -98,11 +98,16 @@ export function FindSwiftCodeFormContent() {
     }, 1000);
   }
 
+  const handleSearchAgain = () => {
+    setBranches(null);
+    form.reset();
+  };
+
   return (
     <div>
       {branches ? (
-         <div className="p-6">
-          <BranchList branches={branches} />
+         <div className="p-6 pt-0">
+          <BranchList branches={branches} onSearchAgain={handleSearchAgain} />
         </div>
       ) : (
         <Form {...form}>
