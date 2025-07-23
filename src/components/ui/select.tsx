@@ -5,6 +5,7 @@ import * as SelectPrimitive from "@radix-ui/react-select"
 import { Check, ChevronDown, ChevronUp } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { ScrollArea } from "./scroll-area"
 
 const Select = SelectPrimitive.Root
 
@@ -91,7 +92,9 @@ const SelectContent = React.forwardRef<
             "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
         )}
       >
-        {children}
+        <ScrollArea className="h-72 w-full">
+          {children}
+        </ScrollArea>
       </SelectPrimitive.Viewport>
       <SelectScrollDownButton />
     </SelectPrimitive.Content>

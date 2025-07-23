@@ -28,6 +28,7 @@ import {
 import { Info, Loader2 } from "lucide-react";
 import { getCountries, getBanksForCountry, getCitiesForBank, getBranchesForCity, type Country, type Bank, type Branch } from "@/lib/data";
 import { BranchList } from "./branch-list";
+import { ScrollArea } from "./ui/scroll-area";
 
 const formSchema = z.object({
   country: z.string().min(1, "Please select a country."),
@@ -156,11 +157,13 @@ export function FindSwiftCodeFormContent() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {countries.map((country) => (
-                          <SelectItem key={country.code} value={country.code}>
-                            {country.name}
-                          </SelectItem>
-                        ))}
+                        <ScrollArea className="h-72 w-full">
+                          {countries.map((country) => (
+                            <SelectItem key={country.code} value={country.code}>
+                              {country.name}
+                            </SelectItem>
+                          ))}
+                        </ScrollArea>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -181,11 +184,13 @@ export function FindSwiftCodeFormContent() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {banks.map((bank) => (
-                          <SelectItem key={bank.name} value={bank.name}>
-                            {bank.name}
-                          </SelectItem>
-                        ))}
+                         <ScrollArea className="h-72 w-full">
+                          {banks.map((bank) => (
+                            <SelectItem key={bank.name} value={bank.name}>
+                              {bank.name}
+                            </SelectItem>
+                          ))}
+                        </ScrollArea>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -206,11 +211,13 @@ export function FindSwiftCodeFormContent() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {cities.map((city) => (
-                          <SelectItem key={city} value={city}>
-                            {city}
-                          </SelectItem>
-                        ))}
+                        <ScrollArea className="h-72 w-full">
+                          {cities.map((city) => (
+                            <SelectItem key={city} value={city}>
+                              {city}
+                            </SelectItem>
+                          ))}
+                        </ScrollArea>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -239,4 +246,3 @@ export function FindSwiftCodeFormContent() {
     </div>
   );
 }
-
