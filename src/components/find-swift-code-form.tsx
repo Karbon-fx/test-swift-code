@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -27,7 +27,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Info, Loader2 } from "lucide-react";
-import { getCountries, getBanksForCountry, getBranchesForCity, Bank, Branch } from "@/lib/data";
+import { getCountries, getBanksForCountry, getCitiesForBank, getBranchesForCity, type Country, type Bank, type Branch } from "@/lib/data";
 import { BranchList } from "./branch-list";
 
 const formSchema = z.object({
@@ -38,11 +38,10 @@ const formSchema = z.object({
 
 export function FindSwiftCodeFormContent() {
   const [isLoading, setIsLoading] = useState(false);
+  const [countries, setCountries] = useState<Country[]>([]);
   const [banks, setBanks] = useState<Bank[]>([]);
   const [cities, setCities] = useState<string[]>([]);
   const [branches, setBranches] = useState<Branch[] | null>(null);
-
-  const countries = useMemo(() => getCountries(), []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,45 +56,50 @@ export function FindSwiftCodeFormContent() {
   const selectedBank = form.watch("bank");
 
   useEffect(() => {
+    async function loadCountries() {
+        const countryList = await getCountries();
+        setCountries(countryList);
+    }
+    loadCountries();
+  }, []);
+
+  useEffect(() => {
     form.resetField("bank", { keepError: false });
     form.resetField("city", { keepError: false });
+    setBanks([]);
+    setCities([]);
+
     if (selectedCountry) {
-      const countryBanks = getBanksForCountry(selectedCountry);
-      setBanks(countryBanks);
-      setCities([]);
-    } else {
-      setBanks([]);
-      setCities([]);
+        async function loadBanks() {
+            const countryBanks = await getBanksForCountry(selectedCountry);
+            setBanks(countryBanks);
+        }
+        loadBanks();
     }
   }, [selectedCountry, form]);
 
   useEffect(() => {
     form.resetField("city", { keepError: false });
-     if (selectedBank && selectedCountry) {
-        const bankData = banks.find(b => b.id === selectedBank);
-        if (bankData) {
-            setCities(bankData.cities);
-        } else {
-            setCities([]);
+    setCities([]);
+    if (selectedBank) {
+        async function loadCities() {
+            const bankCities = await getCitiesForBank(selectedBank);
+            setCities(bankCities);
         }
-    } else {
-        setCities([]);
+        loadCities();
     }
-  }, [selectedBank, selectedCountry, banks, form]);
+  }, [selectedBank, form]);
 
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     setBranches(null);
-    // Simulate API call
-    setTimeout(() => {
-      const foundBranches = getBranchesForCity(
+    const foundBranches = await getBranchesForCity(
         values.bank,
         values.city
-      );
-      setBranches(foundBranches);
-      setIsLoading(false);
-    }, 1000);
+    );
+    setBranches(foundBranches);
+    setIsLoading(false);
   }
 
   const handleSearchAgain = () => {
@@ -144,10 +148,10 @@ export function FindSwiftCodeFormContent() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Bank</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value} disabled={!selectedCountry}>
+                    <Select onValueChange={field.onChange} value={field.value} disabled={!selectedCountry || banks.length === 0}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a bank" />
+                          <SelectValue placeholder={banks.length === 0 && selectedCountry ? "No banks found" : "Select a bank"} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -169,10 +173,10 @@ export function FindSwiftCodeFormContent() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>City</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value} disabled={!selectedBank}>
+                    <Select onValueChange={field.onChange} value={field.value} disabled={!selectedBank || cities.length === 0}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a city" />
+                          <SelectValue placeholder={cities.length === 0 && selectedBank ? "No cities found" : "Select a city"} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
