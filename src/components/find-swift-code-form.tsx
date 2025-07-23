@@ -71,43 +71,54 @@ export function FindSwiftCodeFormContent() {
   }, []);
 
   useEffect(() => {
-    form.resetField("bank", { keepError: false });
-    form.resetField("city", { keepError: false });
-    setBanks([]);
-    setCities([]);
-
     if (selectedCountry) {
+        let isMounted = true;
         async function loadBanks() {
             setIsLoading(true);
+            form.resetField("bank", { keepError: false });
+            setBanks([]);
+            form.resetField("city", { keepError: false });
+            setCities([]);
             try {
                 const countryBanks = await getBanksForCountry(selectedCountry);
-                setBanks(countryBanks);
+                if (isMounted) {
+                    setBanks(countryBanks);
+                }
             } catch (error) {
                 console.error("Failed to load banks", error);
             } finally {
-                setIsLoading(false);
+                if (isMounted) {
+                    setIsLoading(false);
+                }
             }
         }
         loadBanks();
+        return () => { isMounted = false; };
     }
   }, [selectedCountry, form]);
 
   useEffect(() => {
-    form.resetField("city", { keepError: false });
-    setCities([]);
     if (selectedCountry && selectedBank) {
+        let isMounted = true;
         async function loadCities() {
             setIsLoading(true);
+            form.resetField("city", { keepError: false });
+            setCities([]);
             try {
                 const bankCities = await getCitiesForBank(selectedCountry, selectedBank);
-                setCities(bankCities);
+                if (isMounted) {
+                    setCities(bankCities);
+                }
             } catch (error) {
                 console.error("Failed to load cities", error);
             } finally {
-                setIsLoading(false);
+                if (isMounted) {
+                    setIsLoading(false);
+                }
             }
         }
         loadCities();
+        return () => { isMounted = false; };
     }
   }, [selectedCountry, selectedBank, form]);
 
@@ -232,8 +243,8 @@ export function FindSwiftCodeFormContent() {
                 ) : null}
                 Find SWIFT code
               </Button>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground pt-2">
-                <Info className="h-4 w-4" />
+              <div className="flex items-start gap-2 text-xs text-muted-foreground pt-2">
+                <Info className="h-4 w-4 shrink-0 mt-0.5" />
                 <p>
                   We respect your privacy. Your bank details are neither stored
                   nor viewed by us.

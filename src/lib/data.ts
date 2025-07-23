@@ -31,6 +31,11 @@ export interface Branch {
 
 let countryList: Record<string, string> | null = null;
 let swiftData: SwiftRecord[] | null = null;
+// Caching for performance
+const countryCache: Country[] = [];
+const banksCache: Map<string, Bank[]> = new Map();
+const citiesCache: Map<string, string[]> = new Map();
+
 
 async function fetchJson<T>(url: string): Promise<T> {
   // In Next.js, we need the full URL for server-side fetching.
@@ -67,6 +72,8 @@ const getSwiftData = async (): Promise<SwiftRecord[]> => {
 
 
 export const getCountries = async (): Promise<Country[]> => {
+  if (countryCache.length > 0) return countryCache;
+
   const allSwiftData = await getSwiftData();
   const allCountries = await getCountryList();
   
@@ -78,12 +85,17 @@ export const getCountries = async (): Promise<Country[]> => {
       name: allCountries[code] || code, // Fallback to code if name not found
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
-    
+  
+  countryCache.push(...countries);
   return countries;
 };
 
 export const getBanksForCountry = async (countryCode: string): Promise<Bank[]> => {
   if (!countryCode) return [];
+  if (banksCache.has(countryCode)) {
+    return banksCache.get(countryCode)!;
+  }
+
   const allSwiftData = await getSwiftData();
 
   const bankNames = allSwiftData
@@ -96,14 +108,22 @@ export const getBanksForCountry = async (countryCode: string): Promise<Bank[]> =
 
   const uniqueBankNames = [...new Set(bankNames)];
 
-  return uniqueBankNames
+  const banks = uniqueBankNames
     .map(name => ({ name, countryCode }))
     .sort((a,b) => a.name.localeCompare(b.name));
+
+  banksCache.set(countryCode, banks);
+  return banks;
 };
 
 
 export const getCitiesForBank = async (countryCode: string, bankName: string): Promise<string[]> => {
   if (!countryCode || !bankName) return [];
+  const cacheKey = `${countryCode}-${bankName}`;
+  if (citiesCache.has(cacheKey)) {
+    return citiesCache.get(cacheKey)!;
+  }
+
   const allSwiftData = await getSwiftData();
   
   const cities = allSwiftData
@@ -115,7 +135,9 @@ export const getCitiesForBank = async (countryCode: string, bankName: string): P
     )
     .map(record => record.city);
 
-  return [...new Set(cities)].sort((a,b) => a.localeCompare(b));
+  const uniqueCities = [...new Set(cities)].sort((a,b) => a.localeCompare(b));
+  citiesCache.set(cacheKey, uniqueCities);
+  return uniqueCities;
 }
 
 export const getBranchesForCity = async (countryCode: string, bankName: string, city: string): Promise<Branch[]> => {
