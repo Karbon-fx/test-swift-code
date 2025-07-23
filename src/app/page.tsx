@@ -1,3 +1,4 @@
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
@@ -11,7 +12,7 @@ import { Info } from "lucide-react";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen w-full flex-col items-center justify-center bg-background">
+    <main className="flex min-h-screen w-full flex-col items-center justify-center bg-background p-4 sm:p-0">
       <div className="w-full max-w-md">
         <Tabs defaultValue="find" className="w-full">
           <Card className="w-full shadow-sm flex flex-col bg-tool-background">

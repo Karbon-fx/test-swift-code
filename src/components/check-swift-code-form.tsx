@@ -50,7 +50,7 @@ function SwiftCodeFormatCard() {
     <Card className="bg-[#F1F5F9] border-none shadow-none mt-4">
       <CardContent className="p-4">
         <p className="text-sm font-semibold text-foreground mb-4">SWIFT code format</p>
-        <div className="grid grid-cols-4 gap-4 text-center">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
           <div>
             <p className="font-mono text-sm text-foreground">AAAA</p>
             <p className="text-xs text-muted-foreground mt-1">Bank code</p>
@@ -141,9 +141,9 @@ export function CheckSwiftCodeFormContent() {
         <div className="space-y-6">
           <div>
             <p className="text-sm text-muted-foreground">SWIFT Code</p>
-            <div className="flex items-center justify-between bg-[#F1F5F9] p-3 rounded-md mt-1">
-              <p className="text-2xl font-bold text-primary">{branch.swift_code.toUpperCase()}</p>
-              <Button variant="outline" size="sm" onClick={() => handleCopy(branch.swift_code)} className="text-[#727272]">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between bg-[#F1F5F9] p-3 rounded-md mt-1 gap-4">
+              <p className="text-2xl font-bold text-primary break-all">{branch.swift_code.toUpperCase()}</p>
+              <Button variant="outline" size="sm" onClick={() => handleCopy(branch.swift_code)} className="text-[#727272] w-full sm:w-auto">
                 <Copy className="mr-2" />
                 Copy Code
               </Button>
@@ -167,8 +167,8 @@ export function CheckSwiftCodeFormContent() {
              <Button variant="outline" onClick={handleSearchAgain} className="w-full text-[#5E5E5E] bg-white">
                Search Again
             </Button>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Info className="h-4 w-4" />
+            <div className="flex items-start gap-2 text-xs text-muted-foreground">
+              <Info className="h-4 w-4 shrink-0 mt-0.5" />
               <p>
                 We respect your privacy. Your bank details are neither stored
                 nor viewed by us.
@@ -218,17 +218,17 @@ export function CheckSwiftCodeFormContent() {
       <CardContent>
         {result && !result.isValid && (
           <div
-            className={`w-full flex items-center gap-3 p-4 rounded-md bg-red-100 text-red-800`}
+            className={`w-full flex items-start gap-3 p-4 rounded-md bg-red-100 text-red-800`}
           >
-            <XCircle className="h-5 w-5" />
+            <XCircle className="h-5 w-5 shrink-0 mt-0.5" />
             <p className="text-sm font-medium">{result.message}</p>
           </div>
         )}
         {!result && <SwiftCodeFormatCard />}
       </CardContent>
       <CardFooter className="pb-6">
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Info className="h-4 w-4" />
+          <div className="flex items-start gap-2 text-xs text-muted-foreground">
+            <Info className="h-4 w-4 shrink-0 mt-0.5" />
             <p>
               We respect your privacy. Your bank details are neither stored
               nor viewed by us.

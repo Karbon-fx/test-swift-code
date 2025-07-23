@@ -35,9 +35,9 @@ export function BranchList({ branches, onSearchAgain }: BranchListProps) {
       <div className="space-y-6">
         <div>
           <p className="text-sm text-muted-foreground">SWIFT Code</p>
-          <div className="flex items-center justify-between bg-[#F1F5F9] p-3 rounded-md mt-1">
-            <p className="text-2xl font-bold text-primary">{selectedBranch.swiftCode.toUpperCase()}</p>
-            <Button variant="outline" size="sm" onClick={() => handleCopy(selectedBranch.swiftCode)} className="text-[#727272]">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between bg-[#F1F5F9] p-3 rounded-md mt-1 gap-4">
+            <p className="text-2xl font-bold text-primary break-all">{selectedBranch.swiftCode.toUpperCase()}</p>
+            <Button variant="outline" size="sm" onClick={() => handleCopy(selectedBranch.swiftCode)} className="text-[#727272] w-full sm:w-auto">
               <Copy className="mr-2" />
               Copy Code
             </Button>
@@ -60,8 +60,8 @@ export function BranchList({ branches, onSearchAgain }: BranchListProps) {
              <Button variant="outline" onClick={onSearchAgain} className="w-full text-[#5E5E5E] bg-white">
                Search Again
             </Button>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Info className="h-4 w-4" />
+            <div className="flex items-start gap-2 text-xs text-muted-foreground">
+              <Info className="h-4 w-4 shrink-0 mt-0.5" />
               <p>
                 We respect your privacy. Your bank details are neither stored
                 nor viewed by us.
@@ -95,11 +95,11 @@ export function BranchList({ branches, onSearchAgain }: BranchListProps) {
           onClick={() => setSelectedBranch(branch)}
         >
           <CardContent className="p-4 flex items-center justify-between">
-            <div>
+            <div className="flex-1">
               <p className="font-semibold text-primary">{branch.branch}</p>
-              <p className="text-sm text-muted-foreground mt-1">{branch.address}</p>
+              <p className="text-sm text-muted-foreground mt-1 break-words">{branch.address}</p>
             </div>
-            <ChevronRight className="w-5 h-5 text-muted-foreground" />
+            <ChevronRight className="w-5 h-5 text-muted-foreground ml-4" />
           </CardContent>
         </Card>
       ))}
