@@ -86,15 +86,16 @@ export const getBanksForCountry = async (countryCode: string): Promise<Bank[]> =
   if (!countryCode) return [];
   const allSwiftData = await getSwiftData();
 
-  const banksForCountry = allSwiftData.filter(
-    record => record.country_iso_code2 === countryCode && record.bank_name_with_branch
-  );
-  
-  // Extract the main bank name before the first hyphen or comma, assuming that's the separator
-  const uniqueBankNames = [...new Set(banksForCountry.map(record => {
-      const bankName = record.bank_name_with_branch.split(/ - |,/)[0].trim();
-      return bankName;
-  }))];
+  const bankNames = allSwiftData
+    .filter(record => record.country_iso_code2 === countryCode && record.bank_name_with_branch)
+    .map(record => {
+        // Extract the main bank name before the first hyphen or comma
+        const bankName = record.bank_name_with_branch.split(/ - |,/)[0].trim();
+        return bankName;
+    })
+    .filter(Boolean); // remove any empty strings that might result
+
+  const uniqueBankNames = [...new Set(bankNames)];
 
   return uniqueBankNames
     .map(name => ({ name, countryCode }))
