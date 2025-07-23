@@ -137,7 +137,7 @@ export function FindSwiftCodeFormContent() {
   return (
     <div>
       {branches ? (
-         <div className="p-6 pt-0">
+        <div className="p-6 pt-0">
           <BranchList branches={branches} onSearchAgain={handleSearchAgain} />
         </div>
       ) : (
