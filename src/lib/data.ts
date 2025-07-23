@@ -92,9 +92,12 @@ export const getBanksForCountry = async (countryCode: string): Promise<Bank[]> =
   
   // Extract the main bank name before the first hyphen or comma, assuming that's the separator
   const uniqueBankNames = [...new Set(banksForCountry.map(record => {
+      if (!record.bank_name_with_branch) {
+        return null; // Skip records without a bank name
+      }
       const bankName = record.bank_name_with_branch.split(/ - |,/)[0].trim();
       return bankName;
-  }))];
+  }).filter(name => name !== null) as string[])];
 
   return uniqueBankNames
     .map(name => ({ name, countryCode }))
@@ -109,6 +112,7 @@ export const getCitiesForBank = async (countryCode: string, bankName: string): P
   const cities = allSwiftData
     .filter(record => 
         record.country_iso_code2 === countryCode && 
+        record.bank_name_with_branch &&
         record.bank_name_with_branch.toUpperCase().startsWith(bankName.toUpperCase())
     )
     .map(record => record.city);
@@ -124,6 +128,7 @@ export const getBranchesForCity = async (countryCode: string, bankName: string, 
   const filteredRecords = allSwiftData.filter(
     (record) =>
       record.country_iso_code2 === countryCode &&
+      record.bank_name_with_branch &&
       record.bank_name_with_branch.toUpperCase().startsWith(bankName.toUpperCase()) &&
       record.city.toUpperCase() === city.toUpperCase()
   );
