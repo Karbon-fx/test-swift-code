@@ -97,7 +97,7 @@ export const getBanksForCountry = async (countryCode: string): Promise<Bank[]> =
       }
       const bankName = record.bank_name_with_branch.split(/ - |,/)[0].trim();
       return bankName;
-  }).filter(name => name !== null && name.length > 2) as string[])];
+  }).filter(name => name) as string[])];
 
   return uniqueBankNames
     .map(name => ({ name, countryCode }))
