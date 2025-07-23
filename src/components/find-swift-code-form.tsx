@@ -157,7 +157,7 @@ export function FindSwiftCodeFormContent() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <ScrollArea className="max-h-72 w-full">
+                        <ScrollArea className="h-72 w-full">
                           {countries.map((country) => (
                             <SelectItem key={country.code} value={country.code}>
                               {country.name}
@@ -181,10 +181,10 @@ export function FindSwiftCodeFormContent() {
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder={!selectedCountry ? "Select a country first" : (banks.length === 0 ? "No banks found" : "Select a bank")} />
-                        </SelectTrigger>
+                        </Trigger>
                       </FormControl>
                       <SelectContent>
-                         <ScrollArea className="max-h-72 w-full">
+                         <ScrollArea className="h-72 w-full">
                           {banks.map((bank) => (
                             <SelectItem key={bank.name} value={bank.name}>
                               {bank.name}
@@ -208,10 +208,10 @@ export function FindSwiftCodeFormContent() {
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder={!selectedBank ? "Select a bank first" : (cities.length === 0 ? "No cities found" : "Select a city")} />
-                        </SelectTrigger>
+                        </Trigger>
                       </FormControl>
                       <SelectContent>
-                        <ScrollArea className="max-h-72 w-full">
+                        <ScrollArea className="h-72 w-full">
                           {cities.map((city) => (
                             <SelectItem key={city} value={city}>
                               {city}
