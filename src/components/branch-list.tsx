@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -77,6 +78,9 @@ export function BranchList({ branches, onSearchAgain }: BranchListProps) {
       <div className="text-center text-muted-foreground mt-8 py-10 border border-dashed rounded-lg">
         <p>No branches found for the selected criteria.</p>
         <p className="text-sm">Please try a different city or bank.</p>
+         <Button variant="outline" onClick={onSearchAgain} className="mt-4 text-[#5E5E5E] bg-white">
+            Search Again
+        </Button>
       </div>
     );
   }
@@ -84,15 +88,15 @@ export function BranchList({ branches, onSearchAgain }: BranchListProps) {
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-semibold tracking-tight">Select Bank Branch</h2>
-      {branches.map((branch) => (
+      {branches.map((branch, index) => (
         <Card 
-          key={branch.swiftCode} 
+          key={`${branch.swiftCode}-${index}`}
           className="shadow-sm transition-shadow hover:shadow-lg cursor-pointer bg-slate-100"
           onClick={() => setSelectedBranch(branch)}
         >
           <CardContent className="p-4 flex items-center justify-between">
             <div>
-              <p className="font-semibold text-primary">{branch.swiftCode}</p>
+              <p className="font-semibold text-primary">{branch.branch}</p>
               <p className="text-sm text-muted-foreground mt-1">{branch.address}</p>
             </div>
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
