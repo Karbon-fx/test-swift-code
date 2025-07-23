@@ -13,7 +13,7 @@ export interface Bank {
 // Represents a full record from swift-data.json
 export interface SwiftRecord {
   country_iso_code2: string;
-  bank_name_with_branch: string;
+  bankname: string;
   city: string;
   bic: string;
 }
@@ -87,13 +87,12 @@ export const getBanksForCountry = async (countryCode: string): Promise<Bank[]> =
   const allSwiftData = await getSwiftData();
 
   const bankNames = allSwiftData
-    .filter(record => record.country_iso_code2 === countryCode && record.bank_name_with_branch)
+    .filter(record => record.country_iso_code2 === countryCode && record.bankname)
     .map(record => {
-        // Extract the main bank name before the first hyphen or comma
-        const bankName = record.bank_name_with_branch.split(/ - |,/)[0].trim();
+        const bankName = record.bankname.split(/ - |,/)[0].trim();
         return bankName;
     })
-    .filter(Boolean); // remove any empty strings that might result
+    .filter(Boolean);
 
   const uniqueBankNames = [...new Set(bankNames)];
 
@@ -110,8 +109,8 @@ export const getCitiesForBank = async (countryCode: string, bankName: string): P
   const cities = allSwiftData
     .filter(record => 
         record.country_iso_code2 === countryCode && 
-        record.bank_name_with_branch &&
-        record.bank_name_with_branch.toUpperCase().startsWith(bankName.toUpperCase())
+        record.bankname &&
+        record.bankname.toUpperCase().startsWith(bankName.toUpperCase())
     )
     .map(record => record.city);
 
@@ -126,15 +125,14 @@ export const getBranchesForCity = async (countryCode: string, bankName: string, 
   const filteredRecords = allSwiftData.filter(
     (record) =>
       record.country_iso_code2 === countryCode &&
-      record.bank_name_with_branch &&
-      record.bank_name_with_branch.toUpperCase().startsWith(bankName.toUpperCase()) &&
+      record.bankname &&
+      record.bankname.toUpperCase().startsWith(bankName.toUpperCase()) &&
       record.city.toUpperCase() === city.toUpperCase()
   );
 
   return filteredRecords.map(record => {
-    // Attempt to split bank name and branch
-    const parts = record.bank_name_with_branch.split(/ - |,/);
-    const mainBankName = parts[0]?.trim() || record.bank_name_with_branch;
+    const parts = record.bankname.split(/ - |,/);
+    const mainBankName = parts[0]?.trim() || record.bankname;
     const branchName = parts.length > 1 ? parts.slice(1).join(', ').trim() : 'Main Branch';
     
     return {
