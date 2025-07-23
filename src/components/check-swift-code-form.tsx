@@ -104,7 +104,12 @@ export function CheckSwiftCodeFormContent() {
     setResult(null);
 
     try {
-      const branchDetails = await swiftLookup(values.swiftCode.toUpperCase());
+      let codeToLookup = values.swiftCode.toUpperCase();
+      if (codeToLookup.length === 11 && codeToLookup.endsWith("XXX")) {
+        codeToLookup = codeToLookup.substring(0, 8);
+      }
+      
+      const branchDetails = await swiftLookup(codeToLookup);
 
       if (branchDetails) {
         setResult({
