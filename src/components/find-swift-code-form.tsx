@@ -208,7 +208,7 @@ export function FindSwiftCodeFormContent() {
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder={!selectedBank ? "Select a bank first" : (cities.length === 0 ? "No cities found" : "Select a city")} />
-                        </Trigger>
+                        </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         <ScrollArea className="h-auto max-h-72 w-full">
