@@ -110,7 +110,8 @@ export const getCitiesForBank = async (countryCode: string, bankName: string): P
     .filter(record => 
         record.country_iso_code2 === countryCode && 
         record.bankname &&
-        record.bankname.toUpperCase().startsWith(bankName.toUpperCase())
+        record.bankname.toUpperCase().startsWith(bankName.toUpperCase()) &&
+        record.city
     )
     .map(record => record.city);
 
@@ -127,6 +128,7 @@ export const getBranchesForCity = async (countryCode: string, bankName: string, 
       record.country_iso_code2 === countryCode &&
       record.bankname &&
       record.bankname.toUpperCase().startsWith(bankName.toUpperCase()) &&
+      record.city &&
       record.city.toUpperCase() === city.toUpperCase()
   );
 
