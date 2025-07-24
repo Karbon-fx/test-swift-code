@@ -41,9 +41,7 @@ async function fetchJson<T>(url: string): Promise<T> {
   // In Next.js, we need the full URL for server-side fetching.
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
   try {
-    const response = await fetch(`${baseUrl}${url}`, {
-      cache: 'force-cache', // Cache the large JSON files
-    });
+    const response = await fetch(`${baseUrl}${url}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
     }
