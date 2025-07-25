@@ -14,6 +14,9 @@ export default {
         headline: ['Geist', 'sans-serif'],
         code: ['monospace'],
       },
+      screens: {
+        sm:'400px'
+      },
       colors: {
         background: 'hsl(var(--background))',
         'tool-background': '#FAFCFF',
